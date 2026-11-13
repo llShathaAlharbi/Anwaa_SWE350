@@ -1,0 +1,10 @@
+{
+  "name": "Remix خريطة السماء والأنواء - Sky Map",
+  "description": "أنواء: خريطة نجوم تفاعلية وشات بوت يعرّفك بتراث العرب في النجوم: أسماؤها ومعانيها وأنواؤها وما قيل فيها من أمثال وشعر.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

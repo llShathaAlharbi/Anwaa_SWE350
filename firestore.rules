@@ -1,0 +1,69 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Default-Deny Catch-All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Validation Blueprint for UserFavorites
+    function isValidUserFavorites(data) {
+      return data.keys().hasAll(['uid', 'favorites'])
+        && data.keys().hasOnly(['uid', 'favorites', 'updatedAt'])
+        && data.uid is string
+        && data.uid.size() >= 1
+        && data.uid.size() <= 128
+        && data.uid == request.auth.uid
+        && data.favorites is list
+        && data.favorites.size() <= 40;
+    }
+
+    // /users/{uid}
+    match /users/{uid} {
+      allow get: if isOwner(uid) && isValidId(uid);
+      allow list: if false;
+      allow create: if isOwner(uid) && isValidId(uid) && isValidUserFavorites(incoming());
+      allow update: if isOwner(uid)
+        && isValidId(uid)
+        && isValidUserFavorites(incoming())
+        && incoming().uid == existing().uid;
+      allow delete: if isOwner(uid) && isValidId(uid);
+
+      // /users/{uid}/favorites/{docId}
+      match /favorites/{docId} {
+        allow get: if isOwner(uid) && isValidId(uid) && isValidId(docId);
+        allow list: if isOwner(uid) && resource.data.uid == request.auth.uid;
+        allow create: if isOwner(uid) && isValidId(uid) && isValidId(docId) && isValidUserFavorites(incoming());
+        allow update: if isOwner(uid)
+          && isValidId(uid)
+          && isValidId(docId)
+          && isValidUserFavorites(incoming())
+          && incoming().uid == existing().uid
+          && incoming().diff(existing()).affectedKeys().hasOnly(['favorites', 'updatedAt']);
+        allow delete: if isOwner(uid) && isValidId(uid) && isValidId(docId);
+      }
+    }
+  }
+}

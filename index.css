@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Amiri', serif;
+  --font-serif: 'Amiri', serif;
+  --font-body: 'Amiri', serif;
+  --font-amiri: 'Amiri', serif;
+}
+
+:root,
+:root[data-theme="dark"] {
+  --bg: #0b1220;
+  --panel: #111b2e;
+  --panel2: #16233a;
+  --ink: #e8edf5;
+  --muted: #9aa8bf;
+  --line: #27364f;
+  --gold: #e9c46a;
+  --gold-fill: #e9c46a;
+  --sky: #7fb4e6;
+  --ember: #ef8a62;
+  --bot-bg: #0e2a2f;
+  --bot-line: #1d4a52;
+  --input-bg: #0b1220;
+  --nav-bg: #0b1220;
+  --tour-backdrop: rgba(5, 10, 21, 0.7);
+
+  /* Celestial sky tokens for text sitting directly on the sky background */
+  --sky-gold: #e9c46a;
+  --sky-muted: #9aa8bf;
+  --sky-line: #27364f;
+  --sky-ink: #e8edf5;
+
+  font-family: 'Year of the Camel', 'Amiri', serif;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  /* 1) The page/sky background in light mode must be EXACTLY the same as in dark mode */
+  --bg: #0b1220;
+
+  /* 2) Surfaces on top of sky: soft warm off-white / light cream */
+  --panel: #f5f0e6;
+  --panel2: #ebe4d5;
+  --input-bg: #ffffff;
+  --nav-bg: #faf6ee;
+  --line: #d8cebc;
+
+  /* 3) Dark navy text with strong contrast & adjusted darker gold */
+  --ink: #14213d;
+  --muted: #4a5870;
+  --gold: #9a7a1e;
+  --gold-fill: #e9c46a;
+  --sky: #1e5b99;
+  --ember: #b84520;
+  --bot-bg: #e8efef;
+  --bot-line: #b4cecc;
+  --tour-backdrop: rgba(5, 10, 21, 0.72);
+
+  /* 4) Text that sits directly on the sky background remains light, exactly as in dark mode */
+  --sky-gold: #e9c46a;
+  --sky-muted: #9aa8bf;
+  --sky-line: #27364f;
+  --sky-ink: #e8edf5;
+
+  font-family: 'Year of the Camel', 'Amiri', serif;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  font-family: 'Year of the Camel', 'Amiri', serif;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+optgroup,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+label,
+table,
+td,
+th {
+  font-family: 'Year of the Camel', 'Amiri', serif;
+}
+
+.font-amiri {
+  font-family: 'Year of the Camel', 'Amiri', serif;
+}
+
+.font-body {
+  font-family: 'Year of the Camel', 'Amiri', serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--sky-ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Year of the Camel', 'Amiri', serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+/* Card and panel surfaces inherit panel ink color */
+.bg-\[var\(--panel\)\],
+.bg-\[var\(--panel2\)\],
+header.bg-\[var\(--nav-bg\)\],
+.bg-\[var\(--nav-bg\)\] {
+  color: var(--ink);
+}
+
+/* Light mode card/panel elevations: soft shadow so they stand out clearly against the dark sky */
+:root[data-theme="light"] .rounded-\[10px\].bg-\[var\(--panel\)\],
+:root[data-theme="light"] header.bg-\[var\(--nav-bg\)\] {
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.45), 0 4px 8px -2px rgba(0, 0, 0, 0.28);
+}
+
+header,
+section,
+div,
+button,
+input,
+a {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar using theme tokens */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+#dify-chatbot-bubble-button,
+#dify-chatbot-bubble-window {
+  display: none !important;
+}
+

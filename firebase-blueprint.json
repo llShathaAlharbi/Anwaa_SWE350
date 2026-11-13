@@ -1,0 +1,37 @@
+{
+  "entities": {
+    "UserFavorites": {
+      "title": "UserFavorites",
+      "description": "Stores the user's favorited Anwaa star numbers (1 to 40).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The owner Firebase Auth UID.",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "favorites": {
+          "type": "array",
+          "description": "Array of favorited star numbers (1..40), bounded to max 40 items."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last update."
+        }
+      },
+      "required": ["uid", "favorites", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": { "$ref": "#/entities/UserFavorites" },
+      "description": "User document storing the user's favorite stars array."
+    },
+    "/users/{uid}/favorites/{docId}": {
+      "schema": { "$ref": "#/entities/UserFavorites" },
+      "description": "User favorites subcollection document storing the user's favorite stars array."
+    }
+  }
+}
